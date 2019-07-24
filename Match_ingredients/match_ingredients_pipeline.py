@@ -1,11 +1,5 @@
 import spacy
-from sklearn.pipeline import Pipeline
 from sklearn.base import TransformerMixin, BaseEstimator
-
-pipeline_match = Pipeline([
-    ("Lemmatizer", SpacyLemmatizer()),
-    #("WordEmbedder", WordEmbedder())
-])
 
 class SpacyLemmatizer(BaseEstimator, TransformerMixin):
     """Class to call spacy nlp pipeline and extract lemma for each word
