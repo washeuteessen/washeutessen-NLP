@@ -4,7 +4,7 @@ import spacy
 import gensim
 from gensim import corpora
 from gensim.test.utils import common_corpus, common_dictionary
-from gensim.models import HdpModel, LdaModel
+from gensim.models import HdpModel, LdaModel, TfidfModel
 from helper import Recipes
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s', datefmt='%d-%b-%y %H:%M:%S')
@@ -32,9 +32,9 @@ for document in recipes_text:
 logging.info("Create gensim dictionary and corpus.")
 dictionary = corpora.Dictionary(texts)
 corpus = [dictionary.doc2bow(text) for text in texts]
-#tfidf = models.TfidfModel(corpus)
+tfidf = TfidfModel(corpus)
 
 #
 logging.info("Fit lda model on recipes data.")
-model = LdaModel(corpus=corpus, id2word=dictionary, num_topics=10)
+model = LdaModel(corpus=tfidf[corpus], id2word=dictionary, num_topics=10)
 print(model.show_topics())
