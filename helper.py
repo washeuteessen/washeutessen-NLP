@@ -29,7 +29,7 @@ class Recipes(object):
             - _id : bson.objectid.ObjectId
             - text : str
         """
-        recipes = self.collection_recipes.find(projection=["text"], limit=10000)
+        recipes = self.collection_recipes.find(projection=["text"], limit=1000)
         recipes = [recipe for recipe in recipes]
 
         return recipes
