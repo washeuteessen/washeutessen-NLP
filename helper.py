@@ -5,7 +5,7 @@ class Recipes(object):
     """Class to load recipes from mongodb to a dataframe.
     """
 
-    def __init__(self):
+    def __init__(self, limit=100):
         """Setup connection to mongo client, database and collection.
         """
         # connect to mongo client
@@ -16,6 +16,9 @@ class Recipes(object):
 
         # load collections
         self.collection_recipes = self.db["recipes"]
+
+        # define amount of items to load
+        self.limit = limit
 
         logging.info("Initialized Recipes class")
 
@@ -29,7 +32,9 @@ class Recipes(object):
             - _id : bson.objectid.ObjectId
             - text : str
         """
-        recipes = self.collection_recipes.find(projection=["text"], limit=1000)
+        logging.info(f"Load {self.limit} recipes from mongodb.")
+
+        recipes = self.collection_recipes.find(projection=["text"], limit=self.limit)
         recipes = [recipe for recipe in recipes]
 
         return recipes
