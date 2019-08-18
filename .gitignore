@@ -1,2 +1,6 @@
 # folder
 /.ipynb_checkpoints
+/washeuteessen_nlp.egg-info
+
+# files
+*.pyc
