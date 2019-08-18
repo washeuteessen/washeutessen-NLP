@@ -1,7 +1,6 @@
+import sys
 import logging
-from gensim.summarization import keywords
-from multi_rake import Rake
-
+from Extract_keywords.keywords_helper import Keywords
 from helper import Recipes
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s', datefmt='%d-%b-%y %H:%M:%S')
@@ -10,11 +9,10 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(m
 logging.info("Loading recipes from mongodb")
 recipes = Recipes(limit=10000)
 recipes = recipes.load()
-recipes_text = [recipe["text"] for recipe in recipes]
+recipes_text = [recipe for recipe in recipes]
 
 # get keywords
 logging.info("Extracting keywords.")
-#keywords = keywords(text=" ".join(recipes_text), words=10, scores=True, pos_filter=("NN", "NNS"))
-rake = Rake(max_words=1, language_code="de", min_freq=500)
-keywords = rake.apply(" ".join(recipes_text))[:20]
+extractor = Keywords(max_df=1, n_words=10)
+keywords = extractor.extract(texts=recipes_text)
 print(keywords)

@@ -34,7 +34,12 @@ class Recipes(object):
         """
         logging.info(f"Load {self.limit} recipes from mongodb.")
 
-        recipes = self.collection_recipes.find(projection=["text"], limit=self.limit)
-        recipes = [recipe for recipe in recipes]
+        recipes = self.collection_recipes.find(projection=["text", "title"], limit=self.limit)
+
+        recipes = [recipe.get("title") for recipe in recipes]
+        
+        recipes = [recipe for recipe in recipes if recipe is not None]
+
+        logging.info(f"Found {len(recipes)} recipes with existing title.")
 
         return recipes
